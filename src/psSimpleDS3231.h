@@ -5,10 +5,11 @@
 
 #include <inttypes.h>
 #include <Arduino.h>
+#include <Wire.h>
 
 class rtcDS3231 {
 	public:
-		rtcDS3231();
+		rtcDS3231(TwoWire &twi);
 		
 	protected:
 }
