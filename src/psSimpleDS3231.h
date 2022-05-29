@@ -12,8 +12,7 @@
 class rtcDS3231 {
 	public:
 		TwoWire *twi;
-		//rtcDS3231(TwoWire &twi, uint8_t addr=DS3231_ADDRESS);
-		rtcDS3231(uint8_t addr=DS3231_ADDRESS);
+		rtcDS3231(TwoWire &twi, uint8_t addr=DS3231_ADDRESS);
 		void begin();
 
 		uint8_t t[19];
