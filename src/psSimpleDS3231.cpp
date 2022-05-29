@@ -5,9 +5,8 @@
 #include <Wire.h>
 #include <psSimpleDS3231.h>
 
-rtcDS3231::rtcDS3231(TwoWire &twi, uint8_t addr) {
-	//rtcDS3231::twi = &twi;
-    rtcDS3231::twi = &Wire;
+rtcDS3231::rtcDS3231(uint8_t addr) {
+    twi = &Wire;
     addressRTC = addr;
 }
 
