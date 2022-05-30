@@ -10,18 +10,20 @@ rtcDS3231::rtcDS3231(uint8_t addr) {
     addressRTC = addr;
 }
 
-void rtcDS3231::begin(uint32_t clkTWI = 100000) {
+void rtcDS3231::begin(uint32_t clkTWI) {
     twi->begin();
-    twi->setClock(clkTWi);
+    twi->setClock(clkTWI);
 }
 
 void rtcDS3231::getDateTime() {
     readBytes(0, 7);
-    dataBuffer[0] &= 0x7f;
-    seconds = bcd2bin(dataBuffer[0]);
-    dataBuffer[1] &= 0x7f;
-    minutes = bcd2bin(dataBuffer[1]);
-    // hour
+    ss = bcd2bin(dataBuffer[0] & 0x7f); // seconds
+    mm = bcd2bin(dataBuffer[1] & 0x7f); // minutes
+    hh = bcd2bin(dataBuffer[2] & 0x3f); // hour
+    dow = dataBuffer[3] & 0x03; // day of week
+    d = bcd2bin(dataBuffer[4] & 0x3f); // date
+    m = bcd2bin(dataBuffer[5] & 0x1f); // month
+    y = bcd2bin(dataBuffer[6]); // year
 }
 
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t nrBytes) {
