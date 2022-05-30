@@ -46,11 +46,6 @@ class rtcDS3231 {
 
 		uint8_t readBytes(uint8_t startingPointer, uint8_t nrBytes);
 		uint16_t bcd2bin (uint8_t bcd) { return((bcd & 0x0f) + (bcd >> 4) * 10); }
-
-		// testowe
-		uint8_t t[19];
-		void test();
-		uint8_t read(uint8_t i);
 		
 	protected:
 		uint8_t addressRTC;
