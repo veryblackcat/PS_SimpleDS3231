@@ -42,7 +42,7 @@ class rtcDS3231 {
 		void setMonth();
 		void setYear();
 
-		uint8_t readBytes(uint8_t startingPointer, uint8_t nrBytes);
+		uint8_t readBytes(uint8_t startingPointer, uint8_t nrBytes, uint8_t rawData[]);
 
 		// testowe
 		uint8_t t[19];
