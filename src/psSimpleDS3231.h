@@ -26,13 +26,13 @@ class rtcDS3231 {
 		void getTemperature() {}
 		void getControl() {}
 
-		uint8_t hour() 			{ return(mm); }
+		uint8_t hour() 			{ return(hh); }
 		uint8_t minutes() 		{ return(mm); }
 		uint8_t seconds() 		{ return(ss); }
-		uint8_t day() 			{ return(dow); }
-		uint8_t date() 			{ return(d); }
+		uint8_t dayOfWeek() 	{ return(dow); }
+		uint8_t day() 			{ return(d); }
 		uint8_t month() 		{ return(m); }
-		uint8_t year()			{ return(y); }
+		uint16_t year()			{ return(y); }
 		float temperature() 	{ return(temp); }
 
 		void setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t date, uint8_t month, uint16_t year);

@@ -20,10 +20,12 @@ void rtcDS3231::getDateTime() {
     ss = bcd2bin(dataBuffer[0] & 0x7f); // seconds
     mm = bcd2bin(dataBuffer[1] & 0x7f); // minutes
     hh = bcd2bin(dataBuffer[2] & 0x3f); // hour
-    dow = dataBuffer[3] & 0x03; // day of week
-    d = bcd2bin(dataBuffer[4] & 0x3f); // date
-    m = bcd2bin(dataBuffer[5] & 0x1f); // month
-    y = bcd2bin(dataBuffer[6]); // year
+    dow = dataBuffer[3] & 0x03;         // day of week
+    d = bcd2bin(dataBuffer[4] & 0x3f);  // day (date)
+    m = bcd2bin(dataBuffer[5] & 0x1f);  // month
+    // year
+    if(dataBuffer[5] & 0x80) y = 2100 + (bcd2bin(dataBuffer[6]));
+    else y = 2000 + bcd2bin(dataBuffer[6]);
 }
 
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t nrBytes) {
