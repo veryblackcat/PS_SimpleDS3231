@@ -15,7 +15,7 @@ void rtcDS3231::begin(uint32_t clkTWI = 100000) {
     twi->setClock(clkTWi);
 }
 
-uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t nrBytes);
+uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t nrBytes, uint8_t rawData[]);
     twi->beginTransmission(addressRTC);
     twi->write(startingPointer);
     twi->endTransmission();
@@ -23,7 +23,7 @@ uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t nrBytes);
     uint8_t _nr = twi->requestFrom(addressRTC, nrBytes); 
     uint8_t i = 0;
     while (twi->available()) {
-        dataBuffer[i] = twi->read();
+        rawData[i] = twi->read();
         i++;
   }
   return(_nr);
