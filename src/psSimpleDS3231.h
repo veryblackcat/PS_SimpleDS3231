@@ -12,12 +12,40 @@
 class rtcDS3231 {
 	public:
 		TwoWire *twi;
-		rtcDS3231(TwoWire &twi, uint8_t addr=DS3231_ADDRESS);
-		void begin();
+		uint8_t dataBuffer[7];
+		uint8_t hh, mm, ss, dow, d, m;
+		uint16_t y;
+		float temp; // temperature
 
-		uint8_t t[19];
-		void test();
-		uint8_t read(uint8_t i);
+		rtcDS3231(uint8_t addr=DS3231_ADDRESS);
+		void begin(uint32_t clkTWI = 100000);
+
+		void getDateTime();
+		void getAlarm1() {}
+		void getAlarm2() {}
+		void getTemperature() {}
+		void getControl() {}
+
+		uint8_t hour() 			{ return(hh); }
+		uint8_t minutes() 		{ return(mm); }
+		uint8_t seconds() 		{ return(ss); }
+		uint8_t dayOfWeek() 	{ return(dow); }
+		uint8_t day() 			{ return(d); }
+		uint8_t month() 		{ return(m); }
+		uint16_t year()			{ return(y); }
+		float temperature() 	{ return(temp); }
+
+		void setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t date, uint8_t month, uint16_t year);
+		void setHour(uint8_t hour) {};
+		void setMinutes(uint8_t minutes) {};
+		void setSeconds(uint8_t seconds) {};
+		void setDayOfWeek(uint8_t dow) {};
+		void setDay(uint8_t day) {};
+		void setMonth(uint8_t month) {};
+		void setYear(uint16_t year) {};
+
+		uint8_t readBytes(uint8_t startingPointer, uint8_t nrBytes);
+		uint16_t bcd2bin (uint8_t bcd) { return((bcd & 0x0f) + (bcd >> 4) * 10); }
 		
 	protected:
 		uint8_t addressRTC;
