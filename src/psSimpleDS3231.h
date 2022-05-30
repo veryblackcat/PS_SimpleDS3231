@@ -45,6 +45,7 @@ class rtcDS3231 {
 		void setYear() {};
 
 		uint8_t readBytes(uint8_t startingPointer, uint8_t nrBytes);
+		uint16_t bcd2bin (uint8_t bcd) { (bcd & 0x0f) + (bcd >> 4) * 10 }
 
 		// testowe
 		uint8_t t[19];
