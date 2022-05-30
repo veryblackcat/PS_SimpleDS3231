@@ -26,23 +26,23 @@ class rtcDS3231 {
 		void getTemperature() {}
 		void getControl() {}
 
-		uint8_t hour();
-		uint8_t minutes();
-		uint8_t seconds();
-		uint8_t day();
-		uint8_t date();
-		uint8_t month();
-		uint8_t year();
-		float temperature();
+		uint8_t hour() 			{ return(hour); }
+		uint8_t minutes() 		{ return(minutes); }
+		uint8_t seconds() 		{ return(seconds); }
+		uint8_t day() 			{ return(day); }
+		uint8_t date() 			{ return(date); }
+		uint8_t month() 		{ return(month); }
+		uint8_t year()			{ return(year); }
+		float temperature() 	{ return(temperature); }
 
 		void setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t date, uint8_t month, uint16_t year)
-		void setHour();
-		void setMinutes();
-		void setSeconds();
-		void setDay();
-		void setDate();
-		void setMonth();
-		void setYear();
+		void setHour() {};
+		void setMinutes() {};
+		void setSeconds() {};
+		void setDay() {};
+		void setDate() {};
+		void setMonth() {};
+		void setYear() {};
 
 		uint8_t readBytes(uint8_t startingPointer, uint8_t nrBytes);
 

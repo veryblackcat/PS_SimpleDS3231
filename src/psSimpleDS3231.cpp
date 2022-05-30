@@ -15,6 +15,10 @@ void rtcDS3231::begin(uint32_t clkTWI = 100000) {
     twi->setClock(clkTWi);
 }
 
+void rtcDS3231::getDateTime() {
+
+}
+
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t nrBytes);
     twi->beginTransmission(addressRTC);
     twi->write(startingPointer);
