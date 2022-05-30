@@ -19,7 +19,7 @@ void rtcDS3231::getDateTime() {
     readBytes(0, 7);
     ss = bcd2bin(dataBuffer[0] & 0x7f); // seconds
     mm = bcd2bin(dataBuffer[1] & 0x7f); // minutes
-    hh = bcd2bin(dataBuffer[2] & 0x3f); // hour
+    hh = bcd2bin(dataBuffer[2] & 0x3f); // hour // 12h time ??????
     dow = dataBuffer[3] & 0x03;         // day of week
     d = bcd2bin(dataBuffer[4] & 0x3f);  // day (date)
     m = bcd2bin(dataBuffer[5] & 0x1f);  // month
