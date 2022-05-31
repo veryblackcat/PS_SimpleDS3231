@@ -13,8 +13,8 @@ class rtcDS3231 {
 	public:
 		TwoWire *twi;
 		uint8_t dataBuffer[7];
-		uint8_t hh, mm, ss, dow, d, m;
-		uint16_t y;
+		uint8_t hh, mm, ss, dow, DD, MM;
+		uint16_t YYYY;
 		float temp; // temperature
 
 		rtcDS3231(uint8_t addr=DS3231_ADDRESS);
@@ -30,9 +30,9 @@ class rtcDS3231 {
 		uint8_t minutes() 		{ return(mm); }
 		uint8_t seconds() 		{ return(ss); }
 		uint8_t dayOfWeek() 	{ return(dow); }
-		uint8_t day() 			{ return(d); }
-		uint8_t month() 		{ return(m); }
-		uint16_t year()			{ return(y); }
+		uint8_t day() 			{ return(DD); }
+		uint8_t month() 		{ return(MM); }
+		uint16_t year()			{ return(YYYY); }
 		float temperature() 	{ return(temp); }
 
 		void setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t date, uint8_t month, uint16_t year);

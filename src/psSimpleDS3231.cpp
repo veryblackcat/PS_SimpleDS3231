@@ -21,11 +21,11 @@ void rtcDS3231::getDateTime() {
     mm  = bcd2bin(dataBuffer[1] & 0x7f);    // minutes
     hh  = bcd2bin(dataBuffer[2] & 0x3f);    // hour // 12h time ??????
     dow = dataBuffer[3] & 0x03;             // day of week
-    d   = bcd2bin(dataBuffer[4] & 0x3f);    // day (date)
-    m   = bcd2bin(dataBuffer[5] & 0x1f);    // month
+    DD  = bcd2bin(dataBuffer[4] & 0x3f);    // day (date)
+    MM  = bcd2bin(dataBuffer[5] & 0x1f);    // month
     // year
-    if(dataBuffer[5] & 0x80) y = 2100 + (bcd2bin(dataBuffer[6]));
-    else y = 2000 + bcd2bin(dataBuffer[6]);
+    if(dataBuffer[5] & 0x80) YYYY = 2100 + (bcd2bin(dataBuffer[6]));
+    else YYYY = 2000 + bcd2bin(dataBuffer[6]);
 }
 
 void rtcDS3231::getTemperature() {
