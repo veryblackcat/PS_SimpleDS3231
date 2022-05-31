@@ -45,6 +45,9 @@ class rtcDS3231 {
 		void year(uint16_t year);
 
 		uint8_t readBytes(uint8_t startingPointer, uint8_t nrBytes);
+		void writeByte(uint8_t startingPointer, uint8_t data);
+		void writeBytes(uint8_t data[], uint8_t length, uint8_t startingPointer);
+
 		uint8_t bcd2bin (uint8_t bcd) { return((bcd & 0x0f) + (bcd >> 4) * 10); }
 		uint8_t bin2bcd (uint8_t bin) { return((bin/10)<<4 + bin%10); } // input range: 0 - 99
 		
