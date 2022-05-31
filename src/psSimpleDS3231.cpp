@@ -28,6 +28,16 @@ void rtcDS3231::getDateTime() {
     else y = 2000 + bcd2bin(dataBuffer[6]);
 }
 
+void rtcDS3231::getAlarm1() {
+    readBytes(0x07, 4);
+
+}
+
+void rtcDS3231::getAlarm2() {
+    readBytes(0x0B, 3);
+    
+}
+
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t nrBytes) {
     twi->beginTransmission(addressRTC);
     twi->write(startingPointer);
