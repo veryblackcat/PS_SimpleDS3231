@@ -18,7 +18,7 @@ void rtcDS3231::getDateTime() {
     ss  = bcd2bin(dataBuffer[0] & 0x7f);    // seconds
     mm  = bcd2bin(dataBuffer[1] & 0x7f);    // minutes
     hh  = bcd2bin(dataBuffer[2] & 0x3f);    // hour // 12h time ??????
-    dow = dataBuffer[3] & 0x03;             // day of week
+    dow = dataBuffer[3] & 0x07;             // day of week
     DD  = bcd2bin(dataBuffer[4] & 0x3f);    // day (date)
     MM  = bcd2bin(dataBuffer[5] & 0x1f);    // month
     // year
@@ -35,16 +35,13 @@ void rtcDS3231::setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint
 
 }
 void rtcDS3231::seconds(uint8_t seconds) {
-    seconds = bin2bcd(seconds);
-    writeByte(0x00, seconds);
+    writeByte(0x00, bin2bcd(seconds));
 }
 void rtcDS3231::minutes(uint8_t minutes) {
-    minutes = bin2bcd(minutes);
-    writeByte(0x01, minutes);
+    writeByte(0x01, bin2bcd(minutes));
 }
 void rtcDS3231::hour(uint8_t hour) {
-    hour = bin2bcd(hour);   //mode 24h (BIT6 = 0)
-    writeByte(0x02, hour);
+    writeByte(0x02, bin2bcd(hour));  //mode 24h (BIT6 = 0)
 }
 void rtcDS3231::dayOfWeek(uint8_t dow) {
     writeByte(0x03, dow);
@@ -73,8 +70,8 @@ void rtcDS3231::year(uint16_t year) {
     if (year < 2100) _year[0] = 0x80;
     else _year[0] = 0x00;
     _year[0] |= dataBuffer[5];
-    _year[1] = bin2bcd(year%100);
-    writeBytes(_year, 2, 0x05);
+    _year[1] = bin2bcd(year % 100);
+    writeBytes(0x05, _year, 2);
 }
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t nrBytes) {
     twi->beginTransmission(addressRTC);
@@ -95,7 +92,7 @@ void rtcDS3231::writeByte(uint8_t startingPointer, uint8_t data) {
     twi->write(data);
     twi->endTransmission();
 }
-void rtcDS3231::writeBytes(uint8_t data[], uint8_t length, uint8_t startingPointer) {
+void rtcDS3231::writeBytes(uint8_t startingPointer, uint8_t data[], uint8_t length) {
     twi->beginTransmission(addressRTC);
     twi->write(startingPointer);
     twi->write(data, length);
