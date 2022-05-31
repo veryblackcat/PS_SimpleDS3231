@@ -38,33 +38,33 @@ void rtcDS3231::setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint
 void rtcDS3231::hour(uint8_t hour) {
     hour = bin2bcd(hour);   //mode 24h (BIT6 = 0)
     
-};
+}
 void rtcDS3231::minutes(uint8_t minutes) {
     minutes = bin2bcd(minutes);
     
-};
+}
 void rtcDS3231::seconds(uint8_t seconds) {
     seconds = bin2bcd(seconds);
     
-};
+}
 void rtcDS3231::dayOfWeek(uint8_t dow) {
     
-};
+}
 void rtcDS3231::day(uint8_t day) {
     day = bin2bcd(day);
     
-};
+}
 void rtcDS3231::month(uint8_t month) {
     month = bin2bcd(month) | (dataBuffer[5] & 0x80);
     
-};
+}
 void rtcDS3231::year(uint16_t year) {
     uint8_t _century = dataBuffer[5] & 0x80;
     if (year < 2100) _century = 0x80;
     else _century = 0x00;
     _century |= dataBuffer[5];
-};
-
+    year = bin2bcd(year%100);
+}
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t nrBytes) {
     twi->beginTransmission(addressRTC);
     twi->write(startingPointer);
