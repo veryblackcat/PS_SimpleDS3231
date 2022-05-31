@@ -34,36 +34,6 @@ void rtcDS3231::getControl() {
 void rtcDS3231::setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t date, uint8_t month, uint16_t year){
 
 }
-void rtcDS3231::seconds(uint8_t seconds) {
-    writeByte(0x00, bin2bcd(seconds));
-}
-void rtcDS3231::minutes(uint8_t minutes) {
-    writeByte(0x01, bin2bcd(minutes));
-}
-void rtcDS3231::hour(uint8_t hour) {
-    writeByte(0x02, bin2bcd(hour));  //mode 24h (BIT6 = 0)
-}
-void rtcDS3231::dayOfWeek(uint8_t dow) {
-    writeByte(0x03, dow);
-}
-void rtcDS3231::day(uint8_t day) {
-    day = bin2bcd(day);
-    writeByte(0x04, day);
-}
-void rtcDS3231::month(uint8_t month) {
-    month = bin2bcd(month) | (dataBuffer[5] & 0x80); // includes century
-    writeByte(0x05, month);
-}
-/*
-void rtcDS3231::year(uint16_t year) {
-    uint8_t _century = dataBuffer[5] & 0x80; // includes century
-    if (year < 2100) _century = 0x80;
-    else _century = 0x00;
-    _century |= dataBuffer[5];
-    year = bin2bcd(year%100);
-    writeByte(0x05, _century);
-    writeByte(0x06, year);
-}*/
 void rtcDS3231::year(uint16_t year) {
     uint8_t _year[2];
     _year[0] = dataBuffer[5] & 0x80; // includes century

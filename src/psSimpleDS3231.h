@@ -36,12 +36,12 @@ class rtcDS3231 {
 		float temperature() 	{ return(temp); }
 
 		void setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t date, uint8_t month, uint16_t year);
-		void hour(uint8_t hour);
-		void minutes(uint8_t minutes);
-		void seconds(uint8_t seconds);
-		void dayOfWeek(uint8_t dow);
-		void day(uint8_t day);
-		void month(uint8_t month);
+		void seconds(uint8_t seconds) { writeByte(0x00, bin2bcd(seconds)); }
+		void minutes(uint8_t minutes) { writeByte(0x01, bin2bcd(minutes)); }
+		void hour(uint8_t hour) { writeByte(0x02, bin2bcd(hour)); }  //mode 24h (BIT6 = 0)
+		void dayOfWeek(uint8_t dow) { writeByte(0x03, dow); }
+		void day(uint8_t day) { writeByte(0x04, bin2bcd(day)); }
+		void month(uint8_t month) { writeByte(0x05, (bin2bcd(month) | (dataBuffer[5] & 0x80))); } // includes century
 		void year(uint16_t year);
 
 		uint8_t readBytes(uint8_t startingPointer, uint8_t nrBytes);
