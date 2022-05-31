@@ -21,10 +21,10 @@ class rtcDS3231 {
 		void begin(uint32_t clkTWI = 100000);
 
 		void getDateTime();
-		void getAlarm1();
-		void getAlarm2();
-		void getTemperature() {}
-		void getControl() {}
+		void getAlarm1() {} // under construction
+		void getAlarm2() {} // under construction
+		void getTemperature();
+		void getControl();
 
 		uint8_t hour() 			{ return(hh); }
 		uint8_t minutes() 		{ return(mm); }
