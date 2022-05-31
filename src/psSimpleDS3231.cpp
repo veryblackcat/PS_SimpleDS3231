@@ -9,12 +9,10 @@ rtcDS3231::rtcDS3231(uint8_t addr) {
     twi = &Wire;
     addressRTC = addr;
 }
-
 void rtcDS3231::begin(uint32_t clkTWI) {
     twi->begin();
     twi->setClock(clkTWI);
 }
-
 void rtcDS3231::getDateTime() {
     readBytes(0, 7);
     ss  = bcd2bin(dataBuffer[0] & 0x7f);    // seconds
@@ -27,14 +25,37 @@ void rtcDS3231::getDateTime() {
     if(dataBuffer[5] & 0x80) YYYY = 2100 + (bcd2bin(dataBuffer[6]));
     else YYYY = 2000 + bcd2bin(dataBuffer[6]);
 }
-
 void rtcDS3231::getTemperature() {
 
 }
-
 void rtcDS3231::getControl() {
 
 }
+
+void setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t date, uint8_t month, uint16_t year){
+
+}
+void hour(uint8_t hour) {
+
+};
+void minutes(uint8_t minutes) {
+
+};
+void seconds(uint8_t seconds) {
+
+};
+void dayOfWeek(uint8_t dow) {
+
+};
+void day(uint8_t day) {
+
+};
+void month(uint8_t month) {
+
+};
+void year(uint16_t year) {
+    
+};
 
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t nrBytes) {
     twi->beginTransmission(addressRTC);
