@@ -35,7 +35,11 @@ void rtcDS3231::setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint
     // dow wyliczać automatycznie
 }
 void rtcDS3231::setTime(uint8_t hour, uint8_t minutes, uint8_t seconds) {
-    // dow wyliczać automatycznie
+    uint8_t _time[3];
+    _time[0] = bin2bcd(seconds);
+    _time[1] = bin2bcd(minutes);
+    _time[2] = bin2bcd(hour);
+    writeBytes(0x00, _time, 3);
 }
 void rtcDS3231::setDate(uint8_t day, uint8_t month, uint16_t year) {
     // dow wyliczać automatycznie
