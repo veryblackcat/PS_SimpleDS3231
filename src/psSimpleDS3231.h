@@ -35,7 +35,9 @@ class rtcDS3231 {
 		uint16_t year()			{ return(YYYY); }
 		float temperature() 	{ return(temp); }
 
-		void setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t date, uint8_t month, uint16_t year);
+		void setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t month, uint16_t year);
+		void setTime(uint8_t hour, uint8_t minutes, uint8_t seconds);
+		void setDate(uint8_t date, uint8_t month, uint16_t year);
 		void seconds(uint8_t seconds) { writeByte(0x00, bin2bcd(seconds)); }
 		void minutes(uint8_t minutes) { writeByte(0x01, bin2bcd(minutes)); }
 		void hour(uint8_t hour) { writeByte(0x02, bin2bcd(hour)); }  //mode 24h (BIT6 = 0)

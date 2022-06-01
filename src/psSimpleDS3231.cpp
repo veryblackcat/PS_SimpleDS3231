@@ -31,8 +31,14 @@ void rtcDS3231::getTemperature() {
 void rtcDS3231::getControl() {
 
 }
-void rtcDS3231::setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t date, uint8_t month, uint16_t year){
-
+void rtcDS3231::setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t month, uint16_t year) {
+    // dow wyliczać automatycznie
+}
+void rtcDS3231::setTime(uint8_t hour, uint8_t minutes, uint8_t seconds) {
+    // dow wyliczać automatycznie
+}
+void rtcDS3231::setDate(uint8_t day, uint8_t month, uint16_t year) {
+    // dow wyliczać automatycznie
 }
 void rtcDS3231::year(uint16_t year) {
     uint8_t _year[2];
