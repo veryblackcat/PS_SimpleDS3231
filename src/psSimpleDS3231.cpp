@@ -37,10 +37,10 @@ void rtcDS3231::setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint
     _dt[0] = bin2bcd(seconds);
     _dt[1] = bin2bcd(minutes);
     _dt[2] = bin2bcd(hour);
-    _dt[2] = bin2bcd(calculateDayOfWeek(day, month, year));
-    _dt[2] = bin2bcd(day);
-    _dt[2] = (year < 2100) ? bin2bcd(month) : (bin2bcd(month) & 0x80);
-    _dt[2] = bin2bcd(year % 100);
+    _dt[3] = bin2bcd(calculateDayOfWeek(day, month, year));
+    _dt[4] = bin2bcd(day);
+    _dt[5] = (year < 2100) ? bin2bcd(month) : (bin2bcd(month) & 0x80);
+    _dt[6] = bin2bcd(year % 100);
     writeBytes(0x00, _dt, 7);
 }
 void rtcDS3231::setTime(uint8_t hour, uint8_t minutes, uint8_t seconds) {
@@ -53,11 +53,11 @@ void rtcDS3231::setTime(uint8_t hour, uint8_t minutes, uint8_t seconds) {
 void rtcDS3231::setDate(uint8_t day, uint8_t month, uint16_t year) {
     // dow wyliczać automatycznie
     uint8_t _date[4];
-    _date[2] = bin2bcd(calculateDayOfWeek(day, month, year));
-    _date[2] = bin2bcd(day);
+    _date[0] = bin2bcd(calculateDayOfWeek(day, month, year));
+    _date[1] = bin2bcd(day);
     _date[2] = (year < 2100) ? bin2bcd(month) : (bin2bcd(month) & 0x80);
-    _date[2] = bin2bcd(year % 100);
-    writeBytes(0x00, _date, 4);
+    _date[3] = bin2bcd(year % 100);
+    writeBytes(0x03, _date, 4);
 }
 void rtcDS3231::year(uint16_t year) {
     uint8_t _year[2];
