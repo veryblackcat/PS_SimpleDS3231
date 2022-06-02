@@ -16,6 +16,8 @@ class rtcDS3231 {
 		uint8_t hh, mm, ss, dow, DD, MM;
 		uint16_t YYYY;
 		float temp; // temperature
+		uint8_t summerTimeDay; // The last Sunday of March.
+		uint8_t winterTimeDay; // The last Sunday of October.
 
 		rtcDS3231(uint8_t addr=DS3231_ADDRESS);
 		void begin(uint32_t clkTWI = 100000);
@@ -56,6 +58,7 @@ class rtcDS3231 {
 		uint8_t calculateDayOfWeek(uint8_t day, uint8_t month, uint16_t year);
 		// RFC 3339 Appendix C. Leap Years
 		uint8_t leapYear(uint16_t year) { return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)); }
+		void calculateSummerWinterDay();
 		
 	protected:
 		uint8_t addressRTC;
