@@ -51,11 +51,11 @@ void rtcDS3231::setTime(uint8_t hour, uint8_t minutes, uint8_t seconds) {
     writeBytes(0x00, _time, 3);
 }
 void rtcDS3231::setDate(uint8_t day, uint8_t month, uint16_t year) {
-    // dow wyliczać automatycznie
+    // dow liczony automatycznie
     uint8_t _date[4];
     _date[0] = bin2bcd(calculateDayOfWeek(day, month, year));
     _date[1] = bin2bcd(day);
-    _date[2] = (year < 2100) ? bin2bcd(month) : (bin2bcd(month) & 0x80);
+    _date[2] = (year < 2100) ? bin2bcd(month) : (bin2bcd(month) & 0x80); // includes century
     _date[3] = bin2bcd(year % 100);
     writeBytes(0x03, _date, 4);
 }
@@ -107,5 +107,5 @@ uint8_t rtcDS3231::calculateDayOfWeek(uint8_t day, uint8_t month, uint16_t year)
     year %= 100;
     //return (((26 * month - 2) / 10 + day + year + year / 4 + cent / 4 + 5 * cent) % 7);
     // For DS3231 - 1 equals Sunday, then 2 equals Monday, and so on.
-    return ((((26 * month - 2) / 10 + day + year + year / 4 + cent / 4 + 5 * cent) % 7)+1);
+    return ((((26 * month - 2) / 10 + day + year + year / 4 + cent / 4 + 5 * cent) % 7) + 1);
 }
