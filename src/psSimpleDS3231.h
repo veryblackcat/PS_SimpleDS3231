@@ -21,8 +21,6 @@ class rtcDS3231 {
 		void begin(uint32_t clkTWI = 100000);
 
 		void getDateTime();
-		void getAlarm1() {} // under construction
-		void getAlarm2() {} // under construction
 		void getTemperature();
 		void getControl();
 
