@@ -78,3 +78,19 @@ void rtcDS3231::writeBytes(uint8_t startingPointer, uint8_t data[], uint8_t leng
     twi->write(data, length);
     twi->endTransmission();
 }
+uint8_t rtcDS3231::calculateDayOfWeek(uint8_t day, uint8_t month, uint16_t year){
+    int cent;
+    //char *dayofweek[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+    /* adjust months so February is the last one */
+    month -= 2;
+    if (month < 1) {
+        month += 12;
+        --year;
+    }
+    /* split by century */
+    cent = year / 100;
+    year %= 100;
+    //return (((26 * month - 2) / 10 + day + year + year / 4 + cent / 4 + 5 * cent) % 7);
+    // For DS3231 - 1 equals Sunday, then 2 equals Monday, and so on.
+    return ((((26 * month - 2) / 10 + day + year + year / 4 + cent / 4 + 5 * cent) % 7)+1);
+}

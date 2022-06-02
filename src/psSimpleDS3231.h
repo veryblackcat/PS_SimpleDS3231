@@ -52,7 +52,12 @@ class rtcDS3231 {
 
 		uint8_t bcd2bin (uint8_t bcd) { return((bcd & 0x0f) + (bcd >> 4) * 10); }
 		uint8_t bin2bcd (uint8_t bin) { return(((bin/10)<<4) + bin%10); } // input range: 0 - 99
-		uint8_t isLeapYear(uint16_t year) { return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)); }
+		// RFC 3339 Appendix B. Day of the Week
+		// The day of the week for dates on or after 0000-03-01.
+		// For DS3231 - 1 equals Sunday, then 2 equals Monday, and so on.
+		uint8_t calculateDayOfWeek(uint8_t day, uint8_t month, uint16_t year);
+		// RFC 3339 Appendix C. Leap Years
+		uint8_t leapYear(uint16_t year) { return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)); }
 		
 	protected:
 		uint8_t addressRTC;
