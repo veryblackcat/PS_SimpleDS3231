@@ -68,6 +68,17 @@ void rtcDS3231::year(uint16_t year) {
     _year[1] = bin2bcd(year % 100);
     writeBytes(0x05, _year, 2);
 }
+uint8_t rtcDS3231::readByte(uint8_t startingPointer, uint8_t &data) {
+    twi->beginTransmission(addressRTC);
+    twi->write(startingPointer);
+    twi->endTransmission();
+
+    uint8_t _nr = twi->requestFrom(addressRTC, 1); 
+    if (twi->available()) {
+        data = twi->read()
+        return(_nr);
+    }
+}
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t nrBytes) {
     twi->beginTransmission(addressRTC);
     twi->write(startingPointer);

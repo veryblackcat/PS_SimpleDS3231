@@ -46,6 +46,7 @@ class rtcDS3231 {
 		void month(uint8_t month) { writeByte(0x05, (bin2bcd(month) | (dataBuffer[5] & 0x80))); } // includes century
 		void year(uint16_t year);
 
+		uint8_t rtcDS3231::readByte(uint8_t startingPointer, uint8_t &data);
 		uint8_t readBytes(uint8_t startingPointer, uint8_t nrBytes);
 		void writeByte(uint8_t startingPointer, uint8_t data);
 		void writeBytes(uint8_t startingPointer, uint8_t data[], uint8_t length);
