@@ -10,10 +10,10 @@
 #define DS3231_ADDRESS 0x68 
 #define DS3231_SQW_ENABLE  true
 #define DS3231_SQW_DISABLE false
-#define DS3231_SQW_FREQ_1HZ    (0x00 << 3)
-#define DS3231_SQW_FREQ_1024HZ (0x01 << 3)
-#define DS3231_SQW_FREQ_4096HZ (0x02 << 3)
-#define DS3231_SQW_FREQ_8192HZ (0x03 << 3)
+#define DS3231_SQW_FREQ_1HZ    0x00
+#define DS3231_SQW_FREQ_1024HZ 0x08
+#define DS3231_SQW_FREQ_4096HZ 0x10
+#define DS3231_SQW_FREQ_8192HZ 0x18
 
 class rtcDS3231 {
 	public:
