@@ -30,7 +30,6 @@ class rtcDS3231 {
 
 		void getDateTime();
 		void getTemperature();
-		void getControl();
 
 		uint8_t hour() 			{ return(hh); }
 		uint8_t minutes() 		{ return(mm); }
@@ -54,8 +53,8 @@ class rtcDS3231 {
 
 		void setSQW(bool enable = DS3231_SQW_ENABLE, uint8_t freq = DS3231_SQW_FREQ_1HZ);
 
-		uint8_t readByte(uint8_t startingPointer, uint8_t &data);
-		uint8_t readBytes(uint8_t startingPointer, uint8_t nrBytes);
+		uint8_t readByte(uint8_t startingPointer);
+		uint8_t readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length);
 		void writeByte(uint8_t startingPointer, uint8_t data);
 		void writeBytes(uint8_t startingPointer, uint8_t data[], uint8_t length);
 

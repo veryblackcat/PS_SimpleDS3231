@@ -14,7 +14,7 @@ void rtcDS3231::begin(uint32_t clkTWI) {
     twi->setClock(clkTWI);
 }
 void rtcDS3231::getDateTime() {
-    readBytes(0, 7);
+    readBytes(0, dataBuffer, 7);
     ss  = bcd2bin(dataBuffer[0] & 0x7f);    // seconds
     mm  = bcd2bin(dataBuffer[1] & 0x7f);    // minutes
     hh  = bcd2bin(dataBuffer[2] & 0x3f);    // hour // 12h time ??????
@@ -28,9 +28,7 @@ void rtcDS3231::getDateTime() {
 void rtcDS3231::getTemperature() {
 
 }
-void rtcDS3231::getControl() {
 
-}
 void rtcDS3231::setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t month, uint16_t year) {
     // dow liczony automatycznie
     uint8_t _dt[7];
@@ -70,33 +68,37 @@ void rtcDS3231::year(uint16_t year) {
 }
 void rtcDS3231::setSQW(bool enable, uint8_t freq) {
     uint8_t _controlReg;
-    // Read Control Register (0Eh)
-
+    
+    readBytes(0x0e, &_controlReg, 1); // Read Control Register (0Eh)
+    
     _controlReg &= ~0x40; // Clear BBSQW (BIT 6 - 40h) - SQW disable
+
     if(enable) {
         _controlReg &= ~0x18;       // Clear RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h)
         _controlReg |= 0x40 | freq; // Set BBSQW (BIT 6 - 40h), RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h)
     }
+
     writeByte(0x0e, _controlReg); // Write Control Register (0Eh)
 }
-uint8_t rtcDS3231::readByte(uint8_t startingPointer, uint8_t &data) {
+uint8_t rtcDS3231::readByte(uint8_t startingPointer) {
     twi->beginTransmission(addressRTC);
     twi->write(startingPointer);
     twi->endTransmission();
 
-    //uint8_t _nr = twi->requestFrom(addressRTC, 1); 
+    uint8_t x = 1;
+    //int _nr = twi->requestFrom(addressRTC, 1); 
     //if (twi->available()) data = twi->read();
     //return(_nr);
 }
-uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t nrBytes) {
+uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length) {
     twi->beginTransmission(addressRTC);
     twi->write(startingPointer);
     twi->endTransmission();
 
-    uint8_t _nr = twi->requestFrom(addressRTC, nrBytes); 
+    uint8_t _nr = twi->requestFrom(addressRTC, length); 
     uint8_t i = 0;
     while (twi->available()) {
-        dataBuffer[i] = twi->read();
+        data[i] = twi->read();
         i++;
   }
   return(_nr);
