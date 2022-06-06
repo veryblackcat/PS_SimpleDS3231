@@ -68,6 +68,12 @@ void rtcDS3231::year(uint16_t year) {
     _year[1] = bin2bcd(year % 100);
     writeBytes(0x05, _year, 2);
 }
+void rtcDS3231::setSQW(bool enable, uint8_t freq) {
+    // Read Control Register (0Eh)
+    // Clear BBSQW (BIT 6 - 40h), RS2 (BIT 4), RS1 (BIT 3)
+    // Set BBSQW (BIT 6 - 40h), RS2 (BIT 4), RS1 (BIT 3)
+    // Write Control Register (0Eh)
+}
 uint8_t rtcDS3231::readByte(uint8_t startingPointer, uint8_t &data) {
     twi->beginTransmission(addressRTC);
     twi->write(startingPointer);
