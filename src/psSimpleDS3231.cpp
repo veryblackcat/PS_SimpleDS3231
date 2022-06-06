@@ -66,29 +66,19 @@ void rtcDS3231::year(uint16_t year) {
     _year[1] = bin2bcd(year % 100);
     writeBytes(0x05, _year, 2);
 }
-void rtcDS3231::setSQW(bool enable, uint8_t freq) {
+void rtcDS3231::setSQW(uint8_t freq) {
     uint8_t _controlReg;
     
     readBytes(0x0e, &_controlReg, 1); // Read Control Register (0Eh)
     
     _controlReg &= ~0x40; // Clear BBSQW (BIT 6 - 40h) - SQW disable
 
-    if(enable) {
-        _controlReg &= ~0x18;       // Clear RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h)
-        _controlReg |= 0x40 | freq; // Set BBSQW (BIT 6 - 40h), RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h)
+    if(freq) {
+        _controlReg &= ~0x1C;   // Clear RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h), INTCN (BIT 2 - 04h)
+        _controlReg |= freq;    // Set BBSQW (BIT 6 - 40h), RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h)
     }
 
     writeByte(0x0e, _controlReg); // Write Control Register (0Eh)
-}
-uint8_t rtcDS3231::readByte(uint8_t startingPointer) {
-    twi->beginTransmission(addressRTC);
-    twi->write(startingPointer);
-    twi->endTransmission();
-
-    uint8_t x = 1;
-    //int _nr = twi->requestFrom(addressRTC, 1); 
-    //if (twi->available()) data = twi->read();
-    //return(_nr);
 }
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length) {
     twi->beginTransmission(addressRTC);
