@@ -78,6 +78,7 @@ void rtcDS3231::setSQW(bool enable, uint8_t freq) {
         _controlReg &= ~0x18;       // Clear RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h)
         _controlReg |= 0x40 | freq; // Set BBSQW (BIT 6 - 40h), RS2 (BIT 4), RS1 (BIT 3)
     }
+    
     // Write Control Register (0Eh)
     writeByte(0x0e, _controlReg);
 }
