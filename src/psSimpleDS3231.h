@@ -8,11 +8,10 @@
 #include <Wire.h>
 
 #define DS3231_ADDRESS 0x68 
-#define DS3231_SQW_DISABLE 		0x00
-#define DS3231_SQW_FREQ_1HZ 	0x40
-#define DS3231_SQW_FREQ_1024HZ 	0x48
-#define DS3231_SQW_FREQ_4096HZ 	0x50
-#define DS3231_SQW_FREQ_8192HZ 	0x58
+#define DS3231_SQW_FREQ_1HZ 	0x00
+#define DS3231_SQW_FREQ_1024HZ 	0x08
+#define DS3231_SQW_FREQ_4096HZ 	0x10
+#define DS3231_SQW_FREQ_8192HZ 	0x18
 
 class rtcDS3231 {
 	public:
@@ -50,7 +49,8 @@ class rtcDS3231 {
 		void month(uint8_t month) { writeByte(0x05, (bin2bcd(month) | (dataBuffer[5] & 0x80))); } // includes century
 		void year(uint16_t year);
 
-		void setSQW(uint8_t freq = DS3231_SQW_DISABLE);
+		void setSQW(bool enable = true, uint8_t freq = DS3231_SQW_FREQ_1HZ, bool bbSQW = false);
+
 
 		uint8_t readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length);
 		void writeByte(uint8_t startingPointer, uint8_t data);

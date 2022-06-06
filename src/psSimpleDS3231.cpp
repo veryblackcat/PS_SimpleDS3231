@@ -66,19 +66,19 @@ void rtcDS3231::year(uint16_t year) {
     _year[1] = bin2bcd(year % 100);
     writeBytes(0x05, _year, 2);
 }
-void rtcDS3231::setSQW(uint8_t freq) {
+void rtcDS3231::setSQW(bool enable, uint8_t freq, bool bbSQW) {
     uint8_t _controlReg;
     
     readBytes(0x0e, &_controlReg, 1); // Read Control Register (0Eh)
-    
-    _controlReg &= ~0x40;   // Clear BBSQW (BIT 6 - 40h)
-    _controlReg |= 0x04;    // Set INTCN (BIT 2 - 04h) - SQW disable
 
-    if(freq) {
-        freq &= 0xbf;           // BBSQW remains zero
-        _controlReg &= ~0x1C;   // Clear RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h), INTCN (BIT 2 - 04h)
-        _controlReg |= freq;    // Set BBSQW (BIT 6 - 40h), RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h)
-    }
+    if(bbSQW) _controlReg |= 0x40;  // Set BBSQW to 1 (BIT 6 - 40h)
+    else _controlReg &= ~0x40;      // Clear BBSQW to 0 (BIT 6 - 40h)
+    
+    if(enable) _controlReg &= ~0x04;    // Clear INTCN to 0 (BIT 2 - 04h) - SQW enable
+    else _controlReg |= 0x04;           // Set INTCN to 1 (BIT 2 - 04h) - SQW disable
+
+    _controlReg &= ~0x18;   // Clear RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h) to 0
+    _controlReg |= freq;    // Set freq: RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h)
 
     writeByte(0x0e, _controlReg); // Write Control Register (0Eh)
 }
