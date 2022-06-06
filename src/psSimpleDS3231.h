@@ -52,7 +52,7 @@ class rtcDS3231 {
 		void month(uint8_t month) { writeByte(0x05, (bin2bcd(month) | (dataBuffer[5] & 0x80))); } // includes century
 		void year(uint16_t year);
 
-		void enableSQW(bool enable = DS3231_SQW_ENABLE, uint8_t freq = DS3231_SQW_FREQ_1HZ);
+		void setSQW(bool enable = DS3231_SQW_ENABLE, uint8_t freq = DS3231_SQW_FREQ_1HZ);
 
 		uint8_t readByte(uint8_t startingPointer, uint8_t &data);
 		uint8_t readBytes(uint8_t startingPointer, uint8_t nrBytes);
