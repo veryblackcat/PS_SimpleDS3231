@@ -72,15 +72,12 @@ void rtcDS3231::setSQW(bool enable, uint8_t freq) {
     uint8_t _controlReg;
     // Read Control Register (0Eh)
 
-    // Clear BBSQW (BIT 6 - 40h) - SQW disable
-    _controlReg &= ~0x40;
+    _controlReg &= ~0x40; // Clear BBSQW (BIT 6 - 40h) - SQW disable
     if(enable) {
         _controlReg &= ~0x18;       // Clear RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h)
-        _controlReg |= 0x40 | freq; // Set BBSQW (BIT 6 - 40h), RS2 (BIT 4), RS1 (BIT 3)
+        _controlReg |= 0x40 | freq; // Set BBSQW (BIT 6 - 40h), RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h)
     }
-    
-    // Write Control Register (0Eh)
-    writeByte(0x0e, _controlReg);
+    writeByte(0x0e, _controlReg); // Write Control Register (0Eh)
 }
 uint8_t rtcDS3231::readByte(uint8_t startingPointer, uint8_t &data) {
     twi->beginTransmission(addressRTC);
