@@ -82,6 +82,15 @@ void rtcDS3231::setSQW(bool enable, uint8_t freq, bool bbSQW) {
 
     writeByte(0x0e, _controlReg); // Write Control Register (0Eh)
 }
+// When the DS3231 is powered by VCC, the oscillator is always on regardless of the status of the EOSC bit.
+void rtcDS3231::enableOscillator(bool enable) {
+    uint8_t _controlReg;
+    readBytes(0x0e, &_controlReg, 1); // Read Control Register (0Eh)
+    if(enable) _controlReg &= ~0x80;    // Clear EOSC to 0 (BIT 7 - 80h) - EOSC enable
+    else _controlReg |= 0x80;           // Set EOSC to 1 (BIT 7 - 80h) - EOSC disable
+    writeByte(0x0e, _controlReg); // Write Control Register (0Eh)
+}
+
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length) {
     twi->beginTransmission(addressRTC);
     twi->write(startingPointer);
