@@ -30,7 +30,7 @@ void rtcDS3231::getTemperature() {
 }
 
 void rtcDS3231::setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t month, uint16_t year) {
-    // dow liczony automatycznie
+    // The day of the week is automatically calculated from the date.
     // The day of the week for DS3231 - 1 equals Sunday, then 2 equals Monday, and so on.
     uint8_t _dt[7];
     _dt[0] = bin2bcd(seconds);
@@ -50,7 +50,7 @@ void rtcDS3231::setTime(uint8_t hour, uint8_t minutes, uint8_t seconds) {
     writeBytes(0x00, _time, 3);
 }
 void rtcDS3231::setDate(uint8_t day, uint8_t month, uint16_t year) {
-    // dow liczony automatycznie
+    // The day of the week is automatically calculated from the date.
     // The day of the week for DS3231 - 1 equals Sunday, then 2 equals Monday, and so on.
     uint8_t _date[4];
     _date[0] = calculateDayOfWeek(day, month, year) + 1;
