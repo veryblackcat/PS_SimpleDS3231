@@ -41,12 +41,13 @@ class rtcDS3231 {
 		void setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t month, uint16_t year);
 		void setTime(uint8_t hour, uint8_t minutes, uint8_t seconds);
 		void setDate(uint8_t date, uint8_t month, uint16_t year);
-		void seconds(uint8_t seconds) { writeByte(0x00, bin2bcd(seconds)); }
-		void minutes(uint8_t minutes) { writeByte(0x01, bin2bcd(minutes)); }
-		void hour(uint8_t hour) { writeByte(0x02, bin2bcd(hour)); }  //mode 24h (BIT6 = 0)
-		void dayOfWeek(uint8_t dow) { writeByte(0x03, dow); } // The day of the week for DS3231 - 1 equals Sunday, then 2 equals Monday, and so on.
-		void day(uint8_t day) { writeByte(0x04, bin2bcd(day)); } 
-		void month(uint8_t month) { writeByte(0x05, (bin2bcd(month) | (dataBuffer[5] & 0x80))); } // includes century
+		void seconds(uint8_t seconds) 	{ writeByte(0x00, bin2bcd(seconds)); }
+		void minutes(uint8_t minutes) 	{ writeByte(0x01, bin2bcd(minutes)); }
+		void hour(uint8_t hour) 		{ writeByte(0x02, bin2bcd(hour)); }  //mode 24h (BIT6 = 0)
+		// The day of the week for DS3231 - 1 equals Sunday, then 2 equals Monday, and so on.
+		void dayOfWeek(uint8_t dow) 	{ writeByte(0x03, dow); } 
+		void day(uint8_t day) 			{ writeByte(0x04, bin2bcd(day)); } 
+		void month(uint8_t month) 		{ writeByte(0x05, (bin2bcd(month) | (dataBuffer[5] & 0x80))); } // includes century
 		void year(uint16_t year);
 
 		void setSQW(bool enable = true, uint8_t freq = DS3231_SQW_FREQ_1HZ, bool bbSQW = false);
@@ -58,12 +59,15 @@ class rtcDS3231 {
 
 		uint8_t bcd2bin (uint8_t bcd) { return((bcd & 0x0f) + (bcd >> 4) * 10); }
 		uint8_t bin2bcd (uint8_t bin) { return(((bin/10)<<4) + bin%10); } // input range: 0 - 99
+
 		// RFC 3339 Appendix B. Day of the Week
 		// The day of the week for dates on or after 0000-03-01.
 		// 0 equals Sunday, then 1 equals Monday, and so on.
 		uint8_t calculateDayOfWeek(uint8_t day, uint8_t month, uint16_t year);
+
 		// RFC 3339 Appendix C. Leap Years
 		uint8_t leapYear(uint16_t year) { return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)); }
+		
 		void calculateSummerWinterDay();
 		
 	protected:
