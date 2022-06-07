@@ -137,6 +137,6 @@ uint8_t rtcDS3231::calculateDayOfWeek(uint8_t day, uint8_t month, uint16_t year)
     return (((26 * month - 2) / 10 + day + year + year / 4 + cent / 4 + 5 * cent) % 7);
 }
 void rtcDS3231::calculateSummerWinterDay() {
-    summerTimeDay = 31 - calculateDayOfWeek(31, 03, YYYY) + 1; // The last Sunday of March.
-    winterTimeDay = 31 - calculateDayOfWeek(31, 10, YYYY) + 1; // The last Sunday of October.
+    summerTimeDay = 31 - calculateDayOfWeek(31, 03, YYYY); // The last Sunday of March.
+    winterTimeDay = 31 - calculateDayOfWeek(31, 10, YYYY); // The last Sunday of October.
 }
