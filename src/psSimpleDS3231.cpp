@@ -68,6 +68,12 @@ void rtcDS3231::year(uint16_t year) {
     _year[1] = bin2bcd(year % 100);
     writeBytes(0x05, _year, 2);
 }
+/* 
+Control Register (0Eh)
+| BIT7 | BIT6  | BIT5 | BIT4 | BIT3 | BIT2  | BIT1 | BIT0 |
+| ____ |       |      |      |      |       |      |      |
+| EOSC | BBSQW | CONV | RS2  | RS1  | INTCN | A2IE | A1IE |
+*/
 // It also changes the logic level of the INTCN bit.
 void rtcDS3231::setSQW(bool enable, uint8_t freq, bool bbSQW) {
     uint8_t _controlReg;
@@ -85,8 +91,9 @@ void rtcDS3231::setSQW(bool enable, uint8_t freq, bool bbSQW) {
 
     writeByte(0x0e, _controlReg); // Write Control Register (0Eh)
 }
+// Control Register (0Eh) - BIT7 EOSC
 // When the DS3231 is powered by VCC, the oscillator is always on regardless of the status of the EOSC bit.
-void rtcDS3231::enableOscillator(bool enable) {
+void rtcDS3231::enableOscillator(bool enable) { 
     uint8_t _controlReg;
     readBytes(0x0e, &_controlReg, 1);   // Read Control Register (0Eh)
     if(enable) _controlReg &= ~0x80;    // Clear EOSC to 0 (BIT 7 - 80h) - EOSC enable
