@@ -68,53 +68,48 @@ void rtcDS3231::year(uint16_t year) {
     _year[1] = bin2bcd(year % 100);
     writeBytes(0x05, _year, 2);
 }
-/* 
-Control Register (0Eh)
-| BIT7 | BIT6  | BIT5 | BIT4 | BIT3 | BIT2  | BIT1 | BIT0 |
-| ____ |       |      |      |      |       |      |      |
-| EOSC | BBSQW | CONV | RS2  | RS1  | INTCN | A2IE | A1IE |
-|  0   |   0   |  0   |  1   |  1   |   1   |  0   |  0   | When power is first applied.
-*/
 // It also changes the logic level of the INTCN bit.
 void rtcDS3231::setSQW(bool enable, uint8_t freq, bool bbSQW) {
     uint8_t _controlReg;
     
-    readBytes(0x0e, &_controlReg, 1); // Read Control Register (0Eh)
+    readBytes(DS3231_CONTROL_REG, &_controlReg, 1);
 
-    if(bbSQW) _controlReg |= 0x40;  // Set BBSQW to 1 (BIT 6 - 40h)
-    else _controlReg &= ~0x40;      // Clear BBSQW to 0 (BIT 6 - 40h)
+    if(bbSQW) _controlReg |= DS3231_CTRL_BBSQW;
+    else _controlReg &= ~DS3231_CTRL_BBSQW; 
     
-    if(enable) _controlReg &= ~0x04;    // Clear INTCN to 0 (BIT 2 - 04h) - SQW enable
-    else _controlReg |= 0x04;           // Set INTCN to 1 (BIT 2 - 04h) - SQW disable
+    if(enable) _controlReg &= ~DS3231_CTRL_INTCN;
+    else _controlReg |= DS3231_CTRL_INTCN; 
 
     _controlReg &= ~0x18;   // Clear RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h) to 0
     _controlReg |= freq;    // Set freq: RS2 (BIT 4 - 10h), RS1 (BIT 3 - 08h)
 
-    writeByte(0x0e, _controlReg); // Write Control Register (0Eh)
+    writeByte(DS3231_CONTROL_REG, _controlReg);
 }
 // Control Register (0Eh) - BIT7 EOSC (80h)
 // When the DS3231 is powered by VCC, the oscillator is always on regardless of the status of the EOSC bit.
 void rtcDS3231::enableOscillator(bool enable) { 
     uint8_t _controlReg;
-    readBytes(0x0e, &_controlReg, 1);   // Read Control Register (0Eh)
-    if(enable) _controlReg &= ~0x80;    // Clear EOSC to 0 (BIT 7 - 80h) - EOSC enable
-    else _controlReg |= 0x80;           // Set EOSC to 1 (BIT 7 - 80h) - EOSC disable
-    writeByte(0x0e, _controlReg);       // Write Control Register (0Eh)
+    readBytes(DS3231_CONTROL_REG, &_controlReg, 1);
+    if(enable) _controlReg &= ~DS3231_CTRL_EOSC;    // EOSC enable
+    else _controlReg |= DS3231_CTRL_EOSC;           // EOSC disable
+    writeByte(DS3231_CONTROL_REG, _controlReg);
 }
 // Control Register (0Eh) - BIT7 INTCN (40h)
 void rtcDS3231::enableINTCN(bool enable) {
     uint8_t _controlReg;
-    readBytes(0x0e, &_controlReg, 1);
-    if(enable) _controlReg |= 0x80;
-    else _controlReg &= ~0x80;
+    readBytes(DS3231_CONTROL_REG, &_controlReg, 1);
+    if(enable) _controlReg |= DS3231_CTRL_INTCN;
+    else _controlReg &= ~DS3231_CTRL_INTCN;
+    writeByte(DS3231_CONTROL_REG, _controlReg);
+}
+
+void rtcDS3231::setBit(uint8_t addrReg, uint8_t bitValue, uint8_t state) {
+    uint8_t _reg;
+    readBytes(0x0e, &_reg, 1);
+    if(state) _controlReg |= bitValue;
+    else _controlReg &= ~bitValue);
     writeByte(0x0e, _controlReg);
 }
-/* 
-Status Register (0Fh)
-| BIT7 | BIT6  | BIT5 | BIT4 |   BIT3  | BIT2 | BIT1 | BIT0 |
-| OSF  |  0    |  0   |  0   | EN32kHz | BSY  | A2F  | A1F  |
-|  0   |  0    |  0   |  0   |    1    |  x   |  x   |  x   | When power is first applied.
-*/
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length) {
     twi->beginTransmission(addressRTC);
     twi->write(startingPointer);

@@ -7,11 +7,33 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-#define DS3231_ADDRESS 0x68 
-#define DS3231_SQW_FREQ_1HZ 	0x00
+#define DS3231_ADDRESS 			0x68 
+/* 
+Control Register (0Eh)
+| BIT7 | BIT6  | BIT5 | BIT4 | BIT3 | BIT2  | BIT1 | BIT0 |
+| ____ |       |      |      |      |       |      |      |
+| EOSC | BBSQW | CONV | RS2  | RS1  | INTCN | A2IE | A1IE |
+|  0   |   0   |  0   |  1   |  1   |   1   |  0   |  0   | When power is first applied.
+*/
+#define DS3231_CONTROL_REG 		0x0e
+#define DS3231_CTRL_EOSC		0x80
+#define DS3231_CTRL_BBSQW		0x40
+#define DS3231_CTRL_CONV		0x20
+#define DS3231_CTRL_INTCN		0x04
+#define DS3231_CTRL_A2IE		0x02
+#define DS3231_CTRL_A1IE		0x01
+#define DS3231_SQW_FREQ_1HZ 	0x00 // FREQ - RS2, RS1
 #define DS3231_SQW_FREQ_1024HZ 	0x08
 #define DS3231_SQW_FREQ_4096HZ 	0x10
 #define DS3231_SQW_FREQ_8192HZ 	0x18
+/* 
+Status Register (0Fh)
+| BIT7 | BIT6  | BIT5 | BIT4 |   BIT3  | BIT2 | BIT1 | BIT0 |
+| OSF  |  0    |  0   |  0   | EN32kHz | BSY  | A2F  | A1F  |
+|  0   |  0    |  0   |  0   |    1    |  x   |  x   |  x   | When power is first applied.
+*/
+#define DS3231_STATUS_REG		0xf0
+
 
 class rtcDS3231 {
 	public:
@@ -54,6 +76,7 @@ class rtcDS3231 {
 		void enableOscillator(bool enable);
 		void enableINTCN(bool enable = true);
 
+		void setBit(uint8_t addrReg, uint8_t bit, uint8_t state);
 		uint8_t readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length);
 		void writeByte(uint8_t startingPointer, uint8_t data);
 		void writeBytes(uint8_t startingPointer, uint8_t data[], uint8_t length);
