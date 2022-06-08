@@ -51,9 +51,9 @@ class rtcDS3231 {
 		void year(uint16_t year);
 		/* 
 		Control Register (0Eh)
-		| BIT7 | BIT6  | BIT5 | BIT4| BIT3| BIT2  | BIT1 | BIT0 |
-		| ____ |       |      |     |     |       |      |      |
-		| EOSC | BBSQW | CONV | RS2 | RS1 | INTCN | A2IE | A1IE |
+		| BIT7 | BIT6  | BIT5 | BIT4 | BIT3 | BIT2  | BIT1 | BIT0 |
+		| ____ |       |      |      |      |       |      |      |
+		| EOSC | BBSQW | CONV | RS2  | RS1  | INTCN | A2IE | A1IE |
 		*/
 		void setSQW(bool enable = true, uint8_t freq = DS3231_SQW_FREQ_1HZ, bool bbSQW = false);
 		void enableOscillator(bool enable);
