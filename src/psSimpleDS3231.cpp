@@ -68,6 +68,7 @@ void rtcDS3231::year(uint16_t year) {
     _year[1] = bin2bcd(year % 100);
     writeBytes(0x05, _year, 2);
 }
+// It also changes the logic level of the INTCN bit.
 void rtcDS3231::setSQW(bool enable, uint8_t freq, bool bbSQW) {
     uint8_t _controlReg;
     
@@ -92,7 +93,13 @@ void rtcDS3231::enableOscillator(bool enable) {
     else _controlReg |= 0x80;           // Set EOSC to 1 (BIT 7 - 80h) - EOSC disable
     writeByte(0x0e, _controlReg);       // Write Control Register (0Eh)
 }
-
+void rtcDS3231::enableINTCN(bool enable) {
+    uint8_t _controlReg;
+    readBytes(0x0e, &_controlReg, 1);   // Read Control Register (0Eh)
+    if(enable) _controlReg |= 0x80;     // Set EOSC to 1 (BIT 2 - 40h) - INTCN enable
+    else _controlReg &= ~0x80;          // Clear EOSC to 0 (BIT 2 - 40h) - INTCN disable
+    writeByte(0x0e, _controlReg);       // Write Control Register (0Eh)
+}
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length) {
     twi->beginTransmission(addressRTC);
     twi->write(startingPointer);

@@ -52,6 +52,7 @@ class rtcDS3231 {
 
 		void setSQW(bool enable = true, uint8_t freq = DS3231_SQW_FREQ_1HZ, bool bbSQW = false);
 		void enableOscillator(bool enable);
+		void enableINTCN(bool enable = true);
 
 		uint8_t readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length);
 		void writeByte(uint8_t startingPointer, uint8_t data);
