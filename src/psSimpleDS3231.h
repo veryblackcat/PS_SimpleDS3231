@@ -49,12 +49,7 @@ class rtcDS3231 {
 		void day(uint8_t day) 			{ writeByte(0x04, bin2bcd(day)); } 
 		void month(uint8_t month) 		{ writeByte(0x05, (bin2bcd(month) | (dataBuffer[5] & 0x80))); } // includes century
 		void year(uint16_t year);
-		/* 
-		Control Register (0Eh)
-		| BIT7 | BIT6  | BIT5 | BIT4 | BIT3 | BIT2  | BIT1 | BIT0 |
-		| ____ |       |      |      |      |       |      |      |
-		| EOSC | BBSQW | CONV | RS2  | RS1  | INTCN | A2IE | A1IE |
-		*/
+
 		void setSQW(bool enable = true, uint8_t freq = DS3231_SQW_FREQ_1HZ, bool bbSQW = false);
 		void enableOscillator(bool enable);
 		void enableINTCN(bool enable = true);

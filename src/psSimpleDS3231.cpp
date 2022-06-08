@@ -17,7 +17,7 @@ void rtcDS3231::getDateTime() {
     readBytes(0, dataBuffer, 7);
     ss  = bcd2bin(dataBuffer[0] & 0x7f);    // seconds
     mm  = bcd2bin(dataBuffer[1] & 0x7f);    // minutes
-    hh  = bcd2bin(dataBuffer[2] & 0x3f);    // hour // 12h time ??????
+    hh  = bcd2bin(dataBuffer[2] & 0x3f);    // hour
     dow = dataBuffer[3] & 0x07;             // day of week
     DD  = bcd2bin(dataBuffer[4] & 0x3f);    // day (date)
     MM  = bcd2bin(dataBuffer[5] & 0x1f);    // month
@@ -110,7 +110,7 @@ void rtcDS3231::enableINTCN(bool enable) {
     writeByte(0x0e, _controlReg);
 }
 /* 
-Status Register (0Eh)
+Status Register (0Fh)
 | BIT7 | BIT6  | BIT5 | BIT4 |   BIT3  | BIT2 | BIT1 | BIT0 |
 | OSF  |  0    |  0   |  0   | EN32kHz | BSY  | A2F  | A1F  |
 |  0   |  0    |  0   |  0   |    1    |  x   |  x   |  x   | When power is first applied.
