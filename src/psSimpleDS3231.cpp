@@ -112,8 +112,6 @@ void rtcDS3231::setRegBit(uint8_t addrReg, uint8_t mask, uint8_t data) {
     readBytes(addrReg, &_reg, 1);
     _reg &= ~mask;
     _reg |= data;
-    //if(data) _reg |= mask;
-    //else _reg &= ~mask;
     writeByte(addrReg, _reg);
 }
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length) {
