@@ -102,19 +102,12 @@ void rtcDS3231::enableINTCN(bool enable) {
     else _controlReg &= ~DS3231_CTRL_INTCN;
     writeByte(DS3231_CONTROL_REG, _controlReg);
 }
-// Control Register (0Eh)
-uint8_t rtcDS3231::readControlBit(uint8_t bit) {
-    uint8_t _controlReg;
-    readBytes(DS3231_CONTROL_REG, &_controlReg, 1);
-    return(_controlReg & bit);
+uint8_t rtcDS3231::readRegBit(uint8_t addrReg, uint8_t bit) {
+    uint8_t _reg;
+    readBytes(addrReg, &_reg, 1);
+    return(_reg & bit);
 }
-// Status Register (0Fh)
-uint8_t rtcDS3231::readStatusBit(uint8_t bit) {
-    uint8_t _statusReg;
-    readBytes(DS3231_STATUS_REG, &_statusReg, 1);
-    return(_statusReg & bit);
-}
-void rtcDS3231::setReg(uint8_t addrReg, uint8_t mask, uint8_t data) { // ???????????
+void rtcDS3231::setRegBit(uint8_t addrReg, uint8_t mask, uint8_t data) {
     uint8_t _reg;
     readBytes(addrReg, &_reg, 1);
     _reg &= ~mask;
