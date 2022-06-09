@@ -114,13 +114,13 @@ uint8_t rtcDS3231::readStatusBit(uint8_t bit) {
     readBytes(DS3231_STATUS_REG, &_statusReg, 1);
     return(_statusReg & bit);
 }
-void rtcDS3231::setBit(uint8_t addrReg, uint8_t bit, uint8_t state) { // ???????????
+void rtcDS3231::setReg(uint8_t addrReg, uint8_t mask, uint8_t data) { // ???????????
     uint8_t _reg;
     readBytes(addrReg, &_reg, 1);
-    //_reg &= ~bit;
-    //_reg |= state;
-    if(state) _reg |= bit;
-    else _reg &= ~bit;
+    _reg &= ~mask;
+    _reg |= data;
+    //if(data) _reg |= mask;
+    //else _reg &= ~mask;
     writeByte(addrReg, _reg);
 }
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length) {

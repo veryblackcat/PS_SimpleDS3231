@@ -82,7 +82,7 @@ class rtcDS3231 {
 		uint8_t readControlBit(uint8_t bit);
 		uint8_t readStatusBit(uint8_t bit);
 
-		void setBit(uint8_t addrReg, uint8_t bit, uint8_t state);
+		void setReg(uint8_t addrReg, uint8_t bit, uint8_t state);
 		uint8_t readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length);
 		void writeByte(uint8_t startingPointer, uint8_t data);
 		void writeBytes(uint8_t startingPointer, uint8_t data[], uint8_t length);
