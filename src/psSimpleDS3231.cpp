@@ -117,8 +117,10 @@ uint8_t rtcDS3231::readStatusBit(uint8_t bit) {
 void rtcDS3231::setBit(uint8_t addrReg, uint8_t bit, uint8_t state) {
     uint8_t _reg;
     readBytes(addrReg, &_reg, 1);
-    if(state) _reg |= bit;
-    else _reg &= ~bit;
+    _reg &= ~bit;
+    _reg |= state;
+    //if(state) _reg |= bit;
+    // else _reg &= ~bit;
     writeByte(addrReg, _reg);
 }
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length) {
