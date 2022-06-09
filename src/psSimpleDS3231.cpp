@@ -114,7 +114,7 @@ uint8_t rtcDS3231::readStatusBit(uint8_t bit) {
     readBytes(DS3231_STATUS_REG, &_statusReg, 1);
     return(_statusReg & bit);
 }
-void rtcDS3231::setBit(uint8_t addrReg, uint8_t bit, uint8_t state) {
+void rtcDS3231::setBit(uint8_t addrReg, uint8_t bit, uint8_t state) { // ???????????
     uint8_t _reg;
     readBytes(addrReg, &_reg, 1);
     _reg &= ~bit;
