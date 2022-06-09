@@ -32,8 +32,12 @@ Status Register (0Fh)
 | OSF  |  0    |  0   |  0   | EN32kHz | BSY  | A2F  | A1F  |
 |  0   |  0    |  0   |  0   |    1    |  x   |  x   |  x   | When power is first applied.
 */
-#define DS3231_STATUS_REG		0xf0
-
+#define DS3231_STATUS_REG	0xf0
+#define DS3231_STATUS_OSF 	0x80
+#define DS3231_STATUS_EN32	0x08
+#define DS3231_STATUS_BSY	0x04
+#define DS3231_STATUS_A2F	0x02
+#define DS3231_STATUS_A1F	0x01
 
 class rtcDS3231 {
 	public:
@@ -75,6 +79,8 @@ class rtcDS3231 {
 		void setSQW(bool enable = true, uint8_t freq = DS3231_SQW_FREQ_1HZ, bool bbSQW = false);
 		void enableOscillator(bool enable);
 		void enableINTCN(bool enable = true);
+		uint8_t readControlBit(uint8_t bit);
+		uint8_t readStatusBit(uint8_t bit);
 
 		void setBit(uint8_t addrReg, uint8_t bit, uint8_t state);
 		uint8_t readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length);

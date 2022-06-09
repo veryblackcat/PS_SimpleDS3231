@@ -102,13 +102,24 @@ void rtcDS3231::enableINTCN(bool enable) {
     else _controlReg &= ~DS3231_CTRL_INTCN;
     writeByte(DS3231_CONTROL_REG, _controlReg);
 }
-
-void rtcDS3231::setBit(uint8_t addrReg, uint8_t bitValue, uint8_t state) {
+// Control Register (0Eh)
+uint8_t rtcDS3231::readControlBit(uint8_t bit) {
+    uint8_t _controlReg;
+    readBytes(DS3231_CONTROL_REG, &_controlReg, 1);
+    return(_controlReg & bit);
+}
+// Status Register (0Fh)
+uint8_t rtcDS3231::readStatusBit(uint8_t bit) {
+    uint8_t _statusReg;
+    readBytes(DS3231_STATUS_REG, &_statusReg, 1);
+    return(_statusReg & bit);
+}
+void rtcDS3231::setBit(uint8_t addrReg, uint8_t bit, uint8_t state) {
     uint8_t _reg;
     readBytes(0x0e, &_reg, 1);
-    if(state) _controlReg |= bitValue;
-    else _controlReg &= ~bitValue);
-    writeByte(0x0e, _controlReg);
+    if(state) _reg |= bit;
+    else _reg &= ~bit;
+    writeByte(0x0e, _reg);
 }
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length) {
     twi->beginTransmission(addressRTC);
