@@ -116,10 +116,10 @@ uint8_t rtcDS3231::readStatusBit(uint8_t bit) {
 }
 void rtcDS3231::setBit(uint8_t addrReg, uint8_t bit, uint8_t state) {
     uint8_t _reg;
-    readBytes(0x0e, &_reg, 1);
+    readBytes(addrReg, &_reg, 1);
     if(state) _reg |= bit;
     else _reg &= ~bit;
-    writeByte(0x0e, _reg);
+    writeByte(addrReg, _reg);
 }
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length) {
     twi->beginTransmission(addressRTC);
