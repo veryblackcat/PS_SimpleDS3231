@@ -38,6 +38,11 @@ Status Register (0Fh)
 #define DS3231_STATUS_BSY	0x04
 #define DS3231_STATUS_A2F	0x02
 #define DS3231_STATUS_A1F	0x01
+// Aging Offset (10h)
+#define DS3231_AGING_REG	0x10
+// Temperature Registers (11h–12h)
+#define DS3231_TEMP_REG_U	0x11
+#define DS3231_TEMP_REG_L	0x12
 
 class rtcDS3231 {
 	public:
