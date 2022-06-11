@@ -25,8 +25,32 @@ void rtcDS3231::getDateTime() {
     if(dataBuffer[5] & 0x80) YYYY = 2100 + (bcd2bin(dataBuffer[6]));
     else YYYY = 2000 + bcd2bin(dataBuffer[6]);
 }
-void rtcDS3231::getTemperature() {
-
+uint8_t rtcDS3231::getTemperature(bool force) {
+    uint8_t _timeout;
+    uint8_t _temp[2];
+    if(force) {
+        _timeout = millis() + 10;
+        while(readRegBit(DS3231_STATUS_REG, DS3231_STATUS_BSY)) {
+            // timeout
+            if(millis() >= _timeout) return(0);
+        }
+        setRegBit(DS3231_CONTROL_REG, DS3231_CTRL_CONV);
+    }
+    _timeout = millis() + 10;
+    while(readRegBit(DS3231_STATUS_REG, DS3231_STATUS_BSY)) {
+        // timeout
+        if(millis() >= _timeout) return(0);
+    }
+    // read temperature
+    readBytes(DS3231_TEMP_REG_U, _temp, 2);
+    if(int(_temp[0]) < 0) {
+        temp = int(_temp[0]) - (_temp[1]>>6) * 0.25;
+        tempInt = int(_temp[0]) - (_temp[1]>>7);
+    } else {
+        temp = int(_temp[0]) + (_temp[1]>>6) * 0.25;
+        tempInt = int(_temp[0]) + (_temp[1]>>7);
+    }
+    return(1);
 }
 
 void rtcDS3231::setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t month, uint16_t year) {
@@ -107,13 +131,15 @@ uint8_t rtcDS3231::readRegBit(uint8_t addrReg, uint8_t bit) {
     readBytes(addrReg, &_reg, 1);
     return(_reg & bit);
 }
-void rtcDS3231::setRegBit(uint8_t addrReg, uint8_t mask, uint8_t data) {
+void rtcDS3231::setRegBit(uint8_t addrReg, uint8_t bit) {
     uint8_t _reg;
     readBytes(addrReg, &_reg, 1);
-    _reg &= ~mask;
-    data &= ~mask;
-    _reg |= data;
-    writeByte(addrReg, _reg);
+    writeByte(addrReg, _reg | bit);
+}
+void rtcDS3231::clearRegBit(uint8_t addrReg, uint8_t bit) {
+    uint8_t _reg;
+    readBytes(addrReg, &_reg, 1);
+    writeByte(addrReg, _reg & ~bit);
 }
 uint8_t rtcDS3231::readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length) {
     twi->beginTransmission(addressRTC);
