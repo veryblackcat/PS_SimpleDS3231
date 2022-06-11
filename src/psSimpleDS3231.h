@@ -69,6 +69,7 @@ class rtcDS3231 {
 		uint8_t month() 		{ return(MM); }
 		uint16_t year()			{ return(YYYY); }
 		float temperature() 	{ return(temp); }
+		int8_t temperatureInt() { return(tempInt); }
 
 		void setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t month, uint16_t year);
 		void setTime(uint8_t hour, uint8_t minutes, uint8_t seconds);
