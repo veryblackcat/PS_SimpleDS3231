@@ -51,6 +51,7 @@ class rtcDS3231 {
 		uint8_t hh, mm, ss, dow, DD, MM;
 		uint16_t YYYY;
 		float temp; // temperature
+		int8_t tempInt // temperature as an integer rounded to 1
 		uint8_t summerTimeDay; // The last Sunday of March.
 		uint8_t winterTimeDay; // The last Sunday of October.
 
@@ -58,7 +59,7 @@ class rtcDS3231 {
 		void begin(uint32_t clkTWI = 100000);
 
 		void getDateTime();
-		void getTemperature();
+		uint8_t getTemperature(bool force = false);
 
 		uint8_t hour() 			{ return(hh); }
 		uint8_t minutes() 		{ return(mm); }
@@ -85,7 +86,8 @@ class rtcDS3231 {
 		void enableOscillator(bool enable);
 		void enableINTCN(bool enable = true);
 		uint8_t readRegBit(uint8_t addrReg, uint8_t bit);
-		void setRegBit(uint8_t addrReg, uint8_t mask, uint8_t data);
+		void setRegBit(uint8_t addrReg, uint8_t bit);
+		void clearRegBit(uint8_t addrReg, uint8_t bit);
 
 		uint8_t readBytes(uint8_t startingPointer, uint8_t data[], uint8_t length);
 		void writeByte(uint8_t startingPointer, uint8_t data);
