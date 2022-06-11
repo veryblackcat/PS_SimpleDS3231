@@ -44,10 +44,10 @@ uint8_t rtcDS3231::getTemperature(bool force) {
     // read temperature
     readBytes(DS3231_TEMP_REG_U, _temp, 2);
     if(int(_temp[0]) < 0) {
-        temp = int(_temp[0]) - (_temp[1]>>6) * 0.25;
+        temp = int(_temp[0]) - (_temp[1]>>6) * 0.25f;
         tempInt = int(_temp[0]) - (_temp[1]>>7);
     } else {
-        temp = int(_temp[0]) + (_temp[1]>>6) * 0.25;
+        temp = int(_temp[0]) + (_temp[1]>>6) * 0.25f;
         tempInt = int(_temp[0]) + (_temp[1]>>7);
     }
     return(1);
