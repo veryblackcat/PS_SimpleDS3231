@@ -188,3 +188,11 @@ void rtcDS3231::calculateSummerWinterDay() {
     summerTimeDay = 31 - calculateDayOfWeek(31, 03, YYYY); // The last Sunday of March.
     winterTimeDay = 31 - calculateDayOfWeek(31, 10, YYYY); // The last Sunday of October.
 }
+// Returns the number of days in the month.
+uint8_t rtcDS3231::nrDaysMonth(uint8_t month, uint16_t year) {
+    const uint8_t _days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    if (month == 2) {
+        if(leapYear(year)) return(29);
+        else return(28);
+    } else return(_days[month-1]);
+}

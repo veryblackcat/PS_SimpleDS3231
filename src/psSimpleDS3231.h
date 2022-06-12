@@ -106,6 +106,7 @@ class rtcDS3231 {
 		uint8_t leapYear(uint16_t year) { return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)); }
 		
 		void calculateSummerWinterDay();
+		uint8_t nrDaysMonth(uint8_t month, uint16_t year);
 		
 	protected:
 		uint8_t addressRTC;
