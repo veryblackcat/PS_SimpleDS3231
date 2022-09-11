@@ -196,3 +196,14 @@ uint8_t rtcDS3231::nrDaysMonth(uint8_t month, uint16_t year) {
         else return(28);
     } else return(_days[month-1]);
 }
+// Returns the number of day in the year.
+uint16_t rtcDS3231::dayOfYear() { // getDateTime() ?????
+    const uint16_t _days[12] = { 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
+    if(MM > 2) {
+        if(leapYear(YYYY)) return(_days[MM-2]+DD+1);
+        else return(_days[MM-2]+DD);
+    } else {
+        if(MM < 2) return(DD);
+        else return(_days[0]+DD)
+    }
+}

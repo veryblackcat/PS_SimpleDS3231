@@ -109,6 +109,9 @@ class rtcDS3231 {
 		
 		// Returns the number of days in the month.
 		uint8_t nrDaysMonth(uint8_t month, uint16_t year);
+
+		// Returns the number of day in the year.
+		uint16_t dayOfYear();
 		
 	protected:
 		uint8_t addressRTC;
