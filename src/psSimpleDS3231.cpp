@@ -204,6 +204,6 @@ uint16_t rtcDS3231::dayOfYear() { // getDateTime() ?????
         else return(_days[MM-2]+DD);
     } else {
         if(MM == 1) return(DD);
-        else return(_days[0]+DD)
+        else return(_days[0]+DD);
     }
 }
