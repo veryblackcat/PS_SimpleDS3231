@@ -203,7 +203,7 @@ uint16_t rtcDS3231::dayOfYear() { // getDateTime() ?????
         if(leapYear(YYYY)) return(_days[MM-2]+DD+1);
         else return(_days[MM-2]+DD);
     } else {
-        if(MM < 2) return(DD);
+        if(MM == 1) return(DD);
         else return(_days[0]+DD)
     }
 }
