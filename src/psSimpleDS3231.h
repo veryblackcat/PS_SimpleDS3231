@@ -111,6 +111,7 @@ class rtcDS3231 {
 		uint8_t leapYear(uint16_t year) { return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)); }
 		
 		void calculateSummerWinterDay();
+		// poniżej zmienić na bool - porównywać dzień, miesiąc, godzinę
 		uint8_t summerTimeDay() { return(summer_time_day); }
 		uint8_t winterTimeDay() { return(winter_time_day); }
 		
