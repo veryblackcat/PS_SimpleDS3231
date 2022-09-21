@@ -92,6 +92,24 @@ void rtcDS3231::year(uint16_t year) {
     _year[1] = bin2bcd(year % 100);
     writeBytes(0x05, _year, 2);
 }
+// RFC 3339 Appendix B. Day of the Week
+// The day of the week for dates on or after 0000-03-01.
+// 0 equals Sunday, then 1 equals Monday, and so on.
+uint8_t rtcDS3231::dayOfWeek(uint8_t day, uint8_t month, uint16_t year) {
+    int cent;
+    //char *dayofweek[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+    /* adjust months so February is the last one */
+    month -= 2;
+    if (month < 1) {
+        month += 12;
+        --year;
+    }
+    /* split by century */
+    cent = year / 100;
+    year %= 100;
+    // 0 equals Sunday, then 1 equals Monday, and so on.
+    return (((26 * month - 2) / 10 + day + year + year / 4 + cent / 4 + 5 * cent) % 7);
+}
 // It also changes the logic level of the INTCN bit.
 void rtcDS3231::setSQW(bool enable, uint8_t freq, bool bbSQW) {
     uint8_t _controlReg;
