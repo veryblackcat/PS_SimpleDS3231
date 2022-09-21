@@ -105,6 +105,7 @@ class rtcDS3231 {
 		// RFC 3339 Appendix B. Day of the Week
 		// The day of the week for dates on or after 0000-03-01.
 		// 0 equals Sunday, then 1 equals Monday, and so on.
+		// do usuniecia - zastąpione przez dayOfWeek
 		uint8_t calculateDayOfWeek(uint8_t day, uint8_t month, uint16_t year);
 
 		// RFC 3339 Appendix C. Leap Years
