@@ -64,7 +64,7 @@ class rtcDS3231 {
 		uint8_t hour() 			{ return(hh); }
 		uint8_t minutes() 		{ return(mm); }
 		uint8_t seconds() 		{ return(ss); }
-		uint8_t dayOfWeek() 	{ return(dow); }
+		//uint8_t dayOfWeek() 	{ return(dow); }
 		uint8_t day() 			{ return(DD); }
 		uint8_t month() 		{ return(MM); }
 		uint16_t year()			{ return(YYYY); }
