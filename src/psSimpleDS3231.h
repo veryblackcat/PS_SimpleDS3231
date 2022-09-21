@@ -82,6 +82,11 @@ class rtcDS3231 {
 		void year(uint16_t year);
 		// The day of the week for DS3231 - 1 equals Sunday, then 2 equals Monday, and so on.
 		void dayOfWeek(uint8_t dow) 	{ writeByte(0x03, dow); } 
+		// RFC 3339 Appendix B. Day of the Week
+		// The day of the week for dates on or after 0000-03-01.
+		// 0 equals Sunday, then 1 equals Monday, and so on.
+		uint8_t dayOfWeek(uint8_t day, uint8_t month, uint16_t year);
+
 
 		void setSQW(bool enable = true, uint8_t freq = DS3231_SQW_FREQ_1HZ, bool bbSQW = false);
 		void enableOscillator(bool enable);
