@@ -52,8 +52,8 @@ class rtcDS3231 {
 		uint16_t YYYY;
 		float temp; // temperature
 		int8_t tempInt; // temperature as an integer rounded to 1
-		uint8_t summerTimeDay; // The last Sunday of March.
-		uint8_t winterTimeDay; // The last Sunday of October.
+		uint8_t summer_time_day; // The last Sunday of March.
+		uint8_t winter_time_day; // The last Sunday of October.
 
 		rtcDS3231(uint8_t addr=DS3231_ADDRESS);
 		void begin(uint32_t clkTWI = 100000);

@@ -24,6 +24,10 @@ void rtcDS3231::getDateTime() {
     // year
     if(dataBuffer[5] & 0x80) YYYY = 2100 + (bcd2bin(dataBuffer[6]));
     else YYYY = 2000 + bcd2bin(dataBuffer[6]);
+    //
+    summer_time_day = 31 - calculateDayOfWeek(31, 03, YYYY); // The last Sunday of March.
+    winter_time_day = 31 - calculateDayOfWeek(31, 10, YYYY); // The last Sunday of October.
+
 }
 uint8_t rtcDS3231::getTemperature(bool force) {
     uint8_t _timeout;
@@ -203,8 +207,8 @@ uint8_t rtcDS3231::calculateDayOfWeek(uint8_t day, uint8_t month, uint16_t year)
     return (((26 * month - 2) / 10 + day + year + year / 4 + cent / 4 + 5 * cent) % 7);
 }
 void rtcDS3231::calculateSummerWinterDay() {
-    summerTimeDay = 31 - calculateDayOfWeek(31, 03, YYYY); // The last Sunday of March.
-    winterTimeDay = 31 - calculateDayOfWeek(31, 10, YYYY); // The last Sunday of October.
+    summer_time_day = 31 - calculateDayOfWeek(31, 03, YYYY); // The last Sunday of March.
+    winter_time_day = 31 - calculateDayOfWeek(31, 10, YYYY); // The last Sunday of October.
 }
 // Returns the number of days in the month.
 uint8_t rtcDS3231::nrDaysMonth(uint8_t month, uint16_t year) {
