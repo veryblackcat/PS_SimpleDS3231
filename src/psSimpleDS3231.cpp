@@ -24,10 +24,7 @@ void rtcDS3231::getDateTime() {
     // year
     if(dataBuffer[5] & 0x80) YYYY = 2100 + (bcd2bin(dataBuffer[6]));
     else YYYY = 2000 + bcd2bin(dataBuffer[6]);
-    // Calculate summer/winter day
-    if(MM==3)  summer_time_day = 31 - calculateDayOfWeek(31, 03, YYYY); // The last Sunday of March.
-    if(MM==10) winter_time_day = 31 - calculateDayOfWeek(31, 10, YYYY); // The last Sunday of October.
-
+    calculateSummerWinterDay();
 }
 uint8_t rtcDS3231::getTemperature(bool force) {
     uint8_t _timeout;
