@@ -86,7 +86,7 @@ class rtcDS3231 {
 		// The day of the week for dates on or after 0000-03-01.
 		// 0 equals Sunday, then 1 equals Monday, and so on.
 		uint8_t dayOfWeek(uint8_t day, uint8_t month, uint16_t year);
-		uint8_t dayOfWeek() { dayOfWeek(DD, MM, YYYY); }
+		uint8_t dayOfWeek() { return (dayOfWeek(DD, MM, YYYY)); }
 
 		void setSQW(bool enable = true, uint8_t freq = DS3231_SQW_FREQ_1HZ, bool bbSQW = false);
 		void enableOscillator(bool enable);
