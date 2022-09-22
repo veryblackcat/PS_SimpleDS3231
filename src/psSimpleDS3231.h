@@ -103,9 +103,9 @@ class rtcDS3231 {
 		uint8_t leapYear(uint16_t year) { return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)); }
 		
 		// Returns the last Sunday in March.
-		uint8_t summerTimeDay() { return(31 - calculateDayOfWeek(31, 03, YYYY)); }
+		uint8_t summerTimeDay() { return(31 - dayOfWeek(31, 03, YYYY)); }
 		// Returns the last Sunday in October.
-		uint8_t winterTimeDay() { return(31 - calculateDayOfWeek(31, 10, YYYY)); }
+		uint8_t winterTimeDay() { return(31 - dayOfWeek(31, 10, YYYY)); }
 		
 		// Returns the number of days in the month.
 		uint8_t nrDaysMonth(uint8_t month, uint16_t year);
