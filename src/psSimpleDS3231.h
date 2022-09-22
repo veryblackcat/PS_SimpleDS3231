@@ -52,8 +52,6 @@ class rtcDS3231 {
 		uint16_t YYYY;
 		float temp; // temperature
 		int8_t tempInt; // temperature as an integer rounded to 1
-		uint8_t summer_time_day; // The last Sunday of March.
-		uint8_t winter_time_day; // The last Sunday of October.
 
 		rtcDS3231(uint8_t addr=DS3231_ADDRESS);
 		void begin(uint32_t clkTWI = 100000);
@@ -101,19 +99,13 @@ class rtcDS3231 {
 		uint8_t bcd2bin (uint8_t bcd) { return((bcd & 0x0f) + (bcd >> 4) * 10); }
 		uint8_t bin2bcd (uint8_t bin) { return(((bin/10)<<4) + bin%10); } // input range: 0 - 99
 
-		// RFC 3339 Appendix B. Day of the Week
-		// The day of the week for dates on or after 0000-03-01.
-		// 0 equals Sunday, then 1 equals Monday, and so on.
-		// do usuniecia - zastąpione przez dayOfWeek
-		uint8_t calculateDayOfWeek(uint8_t day, uint8_t month, uint16_t year);
-
 		// RFC 3339 Appendix C. Leap Years
 		uint8_t leapYear(uint16_t year) { return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)); }
 		
-		void calculateSummerWinterDay();
-		// poniżej zmienić na bool - porównywać dzień, miesiąc, godzinę
-		uint8_t summerTimeDay() { return(summer_time_day); }
-		uint8_t winterTimeDay() { return(winter_time_day); }
+		// Returns the last Sunday in March.
+		uint8_t summerTimeDay() { return(31 - calculateDayOfWeek(31, 03, YYYY)); }
+		// Returns the last Sunday in October.
+		uint8_t winterTimeDay() { return(31 - calculateDayOfWeek(31, 10, YYYY)); }
 		
 		// Returns the number of days in the month.
 		uint8_t nrDaysMonth(uint8_t month, uint16_t year);

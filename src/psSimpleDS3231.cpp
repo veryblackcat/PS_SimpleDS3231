@@ -184,28 +184,6 @@ void rtcDS3231::writeBytes(uint8_t startingPointer, uint8_t data[], uint8_t leng
     twi->write(data, length);
     twi->endTransmission();
 }
-// RFC 3339 Appendix B. Day of the Week
-// The day of the week for dates on or after 0000-03-01.
-// 0 equals Sunday, then 1 equals Monday, and so on.
-uint8_t rtcDS3231::calculateDayOfWeek(uint8_t day, uint8_t month, uint16_t year) {
-    int cent;
-    //char *dayofweek[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-    /* adjust months so February is the last one */
-    month -= 2;
-    if (month < 1) {
-        month += 12;
-        --year;
-    }
-    /* split by century */
-    cent = year / 100;
-    year %= 100;
-    // 0 equals Sunday, then 1 equals Monday, and so on.
-    return (((26 * month - 2) / 10 + day + year + year / 4 + cent / 4 + 5 * cent) % 7);
-}
-void rtcDS3231::calculateSummerWinterDay() {
-    summer_time_day = 31 - calculateDayOfWeek(31, 03, YYYY); // The last Sunday of March.
-    winter_time_day = 31 - calculateDayOfWeek(31, 10, YYYY); // The last Sunday of October.
-}
 // Returns the number of days in the month.
 uint8_t rtcDS3231::nrDaysMonth(uint8_t month, uint16_t year) {
     const uint8_t _days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
