@@ -60,7 +60,7 @@ void rtcDS3231::setDateTime(uint8_t hour, uint8_t minutes, uint8_t seconds, uint
     _dt[0] = bin2bcd(seconds);
     _dt[1] = bin2bcd(minutes);
     _dt[2] = bin2bcd(hour);
-    _dt[3] = calculateDayOfWeek(day, month, year) + 1;
+    _dt[3] = dayOfWeek(day, month, year) + 1;
     _dt[4] = bin2bcd(day);
     _dt[5] = (year < 2100) ? bin2bcd(month) : (bin2bcd(month) & 0x80);
     _dt[6] = bin2bcd(year % 100);
@@ -77,7 +77,7 @@ void rtcDS3231::setDate(uint8_t day, uint8_t month, uint16_t year) {
     // The day of the week is automatically calculated from the date.
     // The day of the week for DS3231 - 1 equals Sunday, then 2 equals Monday, and so on.
     uint8_t _date[4];
-    _date[0] = calculateDayOfWeek(day, month, year) + 1;
+    _date[0] = dayOfWeek(day, month, year) + 1;
     _date[1] = bin2bcd(day);
     _date[2] = (year < 2100) ? bin2bcd(month) : (bin2bcd(month) & 0x80); // includes century
     _date[3] = bin2bcd(year % 100);
