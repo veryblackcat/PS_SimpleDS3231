@@ -104,8 +104,10 @@ class rtcDS3231 {
 		
 		// Returns the last Sunday in March.
 		uint8_t summerTimeDay() { return(31 - dayOfWeek(31, 03, YYYY)); }
+		uint8_t summerTimeDay(uint16_t YYYY) { return(31 - dayOfWeek(31, 03, YYYY)); }
 		// Returns the last Sunday in October.
 		uint8_t winterTimeDay() { return(31 - dayOfWeek(31, 10, YYYY)); }
+		uint8_t winterTimeDay(uint16_t YYYY) { return(31 - dayOfWeek(31, 10, YYYY)); }
 		
 		// Returns the number of days in the month.
 		uint8_t nrDaysMonth(uint8_t month, uint16_t year);
